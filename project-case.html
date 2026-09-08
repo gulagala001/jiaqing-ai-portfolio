@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>王家庆 项目案例与操作记录</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7f3;color:#172b25;font:16px/1.8 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}main{max-width:920px;margin:auto;padding:36px 24px 72px}a{color:#17694e;text-underline-offset:4px}h1{font-size:36px;line-height:1.3}h2{font-size:26px;margin:38px 0 15px}h3{font-size:19px}p{margin:12px 0}.note{padding:16px 20px;background:#e9f0e8;border-left:4px solid #17694e}.muted,figcaption{color:#596861;font-size:14px}.table{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid #d9e0d8}th{background:#e9f0e8}figure{margin:24px 0}img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid #d9e0d8}figcaption{margin-top:8px}section{border-bottom:1px solid #d9e0d8;padding-bottom:28px}li{margin:8px 0}code{background:#e9f0e8;padding:1px 4px}nav{display:flex;gap:20px;flex-wrap:wrap}@media(max-width:600px){h1{font-size:28px}main{padding:24px 18px}th,td{padding:8px;min-width:130px}}
+</style>
+<main><nav><a href="index.html">← 返回作品集</a><a href="#voxelbench">评测规则</a><a href="#penecho">白板操作</a></nav>
+<h1>项目案例与操作记录</h1>
+<p>这些项目通过需求描述、AI 辅助实现和反复试用推进，目前都在开发中。这里将能查看的成果、上游基础和尚未完成的部分放在一起，便于评估实际范围。</p>
+<p class="muted">以下操作记录由求职助手于 2026-09-08 整理并复核；不代表王家庆独立编写测试或独立完成代码调试。没有将新整理的材料追溯为过去的工作经历。</p>
+<section id="voxelbench"><h2>VoxelBench 把作品要求拆成检查点</h2>
+<p>我提出体素世界评测设想，希望把生成作品的使用体验放进同一套检查流程。AI 辅助实现了题面、录分工作台、固定权重计算、榜单与作品预览。</p>
+<h3>一个可操作的小题</h3><p>求职展示页提取了原题 QC1.1 的检查点。三个检查点额度为 4、3、3 分，可以分别选择完成程度，再由原评分函数合成小题得分。</p>
+<div class="table"><table><tr><th>实际操作</th><th>页面结果</th><th>规则的作用</th></tr>
+<tr><td>未选择全部检查点</td><td>保持未评分</td><td>未观察不自动记作零，也不冒充完整结果</td></tr>
+<tr><td>依次选择满档、半档、零档</td><td>4 + 1.5 + 0 = 5.5 分</td><td>按既定检查点额度合成，避免临时调整尺度</td></tr>
+<tr><td>撤回一个检查点到未观察</td><td>恢复未评分</td><td>有缺项时不输出完整小题分数</td></tr>
+<tr><td>清空体验页</td><td>回到初始状态</td><td>体验仅在当前浏览器内生效，不覆盖原始成绩</td></tr></table></div>
+<p><a href="voxelbench/scoring-demo.html">亲自体验检查点评分 →</a>　<a href="voxelbench/index.html">打开真实记录快照 →</a></p>
+<h3>已完成的范围</h3><p>平台具备两轮题面和评分流程。基础项只计一次，按固定权重拆分到维度；原始成本、耗时和 Token 独立保留。未评项不缩小计算分母。</p>
+<p class="note">当前仅有 5 条录分记录，续轮尚未录分。展示的是平台和方法，不能推出完整双轮模型排名。快照中的异常或缺失消耗没有被推算或“修正”。</p>
+<h3>可讨论的后续改进</h3><p>下一步可从少量完整样本开始，核对检查点是否有歧义，以及相同作品在重复评分时是否稳定。这是后续方案，尚未执行，简历没有写成已取得的一致性或性能提升。</p></section>
+<section id="penecho"><h2>PenEcho 连接白板与持续会话</h2>
+<p>应用场景是持续手写问答：输入留在白板上，回复以文字和公式出现，控制台保留会话与轮次记录。项目在 PenEcho 白板、pi Agent 运行时和 Syncthing 的基础上做桥接与应用改造。</p>
+<p class="note">本次运行使用真实白板与桥接程序；模型回复由本地服务预设，Syncthing 由模拟服务代替。验证目标是请求、板书显示和会话流程；不是模型识字或解题能力测试，也不是安卓真机同步验收。</p>
+<figure><a href="assets/penecho-draft.png"><img src="assets/penecho-draft.png" alt="真实白板里出现可确认的文字和公式草稿"></a><figcaption>白板输入触发请求后，预设文字和公式经过桥接，成为可调整、确认或丢弃的草稿。上游白板提供画布和草稿操作。</figcaption></figure>
+<div class="table"><table><tr><th>操作</th><th>实际观察</th><th>完成范围</th></tr>
+<tr><td>打开独立白板与控制台</td><td>页面加载，桥接在线，会话列表出现</td><td>求职副本的本地启动</td></tr>
+<tr><td>输入文本并加入手写笔迹，触发解释</td><td>文字与公式草稿出现在画布，可确认</td><td>真实界面与桥接流程，回复内容为预设</td></tr>
+<tr><td>在控制台新建会话</td><td>出现新会话与成功提示</td><td>真实会话操作；保存位于独立演示目录</td></tr>
+<tr><td>模拟一次上游 500 错误</td><td>控制台记录异常，随后重试得到预设回复</td><td>仅覆盖这一次故障重试，不能代表所有异常</td></tr></table></div>
+<figure><a href="assets/penecho-sessions.png"><img src="assets/penecho-sessions.png" alt="真实控制台中的多个演示会话与模拟上游故障记录" loading="lazy"></a><figcaption>控制台真实视口截图。安装门户未启动、设备未配对均保留原状；没有将本地模拟写成多端部署完成。</figcaption></figure>
+<h3>演示中遇到的实际问题</h3><p>独立副本缺少图像编码依赖，默认 WebP 输入提示不可用。求职助手将演示配置改为程序支持的 PNG 格式后，请求成功。预设回复最初沿用了旧测试中的命令形状，未能渲染；对齐当前白板的坐标和公式字段后才出现截图中的草稿。两项均属于本次演示准备，不作为本人历史调试经历。</p>
+<p><a href="https://github.com/gulagala001/pi-penecho">个人改造仓库</a> · <a href="https://github.com/penecho/penecho">上游 PenEcho</a></p>
+</section><p class="muted">联系：<a href="mailto:gulagala@outlook.com">gulagala@outlook.com</a> · 王家庆 · 大连海事大学本科在读，预计 2027 年 6 月毕业</p></main></html>

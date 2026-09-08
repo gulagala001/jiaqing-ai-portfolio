@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VoxelBench 求职展示版</title><link rel="stylesheet" href="public/style.css"><style>.demo-note{padding:16px 24px;background:#edf3ef;font-size:14px;line-height:1.8}.demo-note a{margin-right:20px}.demo-note strong{display:block}.topbar{position:static}#toast{position:fixed;bottom:20px;left:20px;background:#193e31;color:white;padding:12px;z-index:99}#toast:empty{display:none}</style></head><body>
+<header class="demo-note"><strong>VoxelBench · 开发中平台 / 只读快照</strong><a href="../index.html">返回作品集</a><a href="scoring-demo.html">体验检查点评分</a>数据截至 2026-09-08；未完整录分，不生成完整模型比较结论。原始成本与 Token 依记录展示，未另行核实记录准确性。</header>
+<main id="app"></main><div id="toast" role="status"></div>
+<script type="module">
+import {renderBoard} from './public/board.js';
+let toastTimer;
+const runs=await fetch('./runs.json').then(r=>{if(!r.ok)throw new Error('数据读取失败');return r.json()});
+const render=()=>renderBoard(runs,{previewButtons:()=>'',notify:message=>{document.querySelector('#toast').textContent=message;clearTimeout(toastTimer);toastTimer=setTimeout(()=>document.querySelector('#toast').textContent='',4000)}});
+render();window.addEventListener('hashchange',render);
+</script></body></html>
