@@ -107,10 +107,10 @@ kbd{background:var(--panel-2);border:1px solid var(--line);border-bottom-width:2
     <div class="brand">PromptLab<span>原文与修改意见</span></div>
     <div class="stat" id="stat">载入中…</div>
     <div class="grow"></div>
-    <input class="search" id="q" aria-label="搜索提示词" placeholder="搜索原文 / 译文 / 批注…" autocomplete="off">
-    <button class="act" id="onlyNoted">只看已批注</button>
-    <button class="act" id="expandAll">全部展开</button>
-    <button class="act" id="export">导出批注</button>
+    <input disabled class="search" id="q" aria-label="搜索提示词" placeholder="搜索原文 / 译文 / 批注…" autocomplete="off">
+    <button disabled class="act" id="onlyNoted">只看已批注</button>
+    <button disabled class="act" id="expandAll">全部展开</button>
+    <button disabled class="act" id="export">导出批注</button>
   </div>
   <div class="cats" id="cats"></div>
 </header>
@@ -122,7 +122,7 @@ kbd{background:var(--panel-2);border:1px solid var(--line);border-bottom-width:2
     <label>总留言 · 大改动方向</label>
     <div class="hint">总留言随批注一起导出。自动保存到本浏览器。</div>
   </div>
-  <textarea aria-label="总留言" id="gnote" placeholder="总体修改目标、必须保留的约束和优先级…"></textarea>
+  <textarea disabled aria-label="总留言" id="gnote" placeholder="总体修改目标、必须保留的约束和优先级…"></textarea>
 </div>
 
 <script>
@@ -262,8 +262,8 @@ function renderCats() {
 }
 
 async function boot() {
-  DATA = await (await fetch('./prompt-data.json')).json();try{const saved=JSON.parse(localStorage.getItem(STORAGE)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))DATA.notes=saved}catch{}
-  stat(); renderCats(); render()
+  const response=await fetch('./prompt-data.json');if(!response.ok)throw new Error('snapshot load failed');DATA=await response.json();if(!Array.isArray(DATA.prompts))throw new Error('invalid snapshot');try{const saved=JSON.parse(localStorage.getItem(STORAGE)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))DATA.notes=saved}catch{}
+  document.querySelectorAll('input.search,button.act,#gnote').forEach(e=>e.disabled=false);stat(); renderCats(); render()
   const g = $('#gnote')
   g.value = DATA.notes.__global?.text || ''
   g.oninput = () => saveNote('__global', g.value, null, null)
@@ -285,7 +285,7 @@ function exportMarkdown(){let out='# PromptLab 修改意见\n\n本文件由当�
 $('#export').onclick=()=>{const text=exportMarkdown();$('#exportText').value=text;$('#exportPreview').hidden=false;$('#exportPreview').open=true;const link=document.createElement('a');const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'}));link.href=url;link.download='PromptLab-修改意见.md';link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);$('#exportPreview').scrollIntoView({behavior:'smooth',block:'center'})};
 addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();persist()}if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}});
 
-boot()
+boot().catch(()=>{$('#stat').textContent='载入失败';$('#main').textContent='提示词快照未能加载，请刷新页面重试。';})
 </script>
 </body>
 </html>
