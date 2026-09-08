@@ -8,3 +8,5 @@
 @media(max-width:370px){.wrap{padding:0 17px}.hero h1{font-size:68px}.nav-links{gap:13px}.nav-contact{display:none}.hero-stage{height:250px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.js-reveal .reveal{opacity:1;transform:none}}
 @media print{body{background:white;color:black}.site-header,.hero-actions,.switcher-tabs,.case-nav,.source-links,.next-project{display:none}.wrap{padding:0}.hero{padding:0}.project-grid,.case-content,.value-statement{display:block}.work-card,.case-section{break-inside:avoid}.work-caption p,.case-section p,.muted{color:#333}.work-visual{max-height:220px}.case-art{max-height:300px}.scope-box{border-color:#333}.reveal{opacity:1!important;transform:none!important}}
+
+.sample-grid{margin-bottom:65px}.sample-grid h3{font-size:23px;font-weight:450;margin:20px 0 13px}.sample-grid p{color:var(--muted);font-size:14px}.sample-grid article{padding:30px}.sample-grid .eyebrow{color:var(--accent);font-size:10px}@media(max-width:740px){.sample-grid{margin-bottom:40px}.sample-grid article{padding:23px}}

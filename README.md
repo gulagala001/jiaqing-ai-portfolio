@@ -13,3 +13,10 @@ Static site, no model keys or backend. Private CVs and application records are e
 
 Published at https://gulagala001.github.io/jiaqing-ai-portfolio/
 Contact: gulagala@outlook.com
+
+## Work samples
+
+- `samples/promptlab.html`: interactive review tool adapted from the existing TriSoul PromptLab. The historical extraction snapshot contains 156 entries, 106 with matching Chinese references. Annotations stay in the visitor browser; original project notes are empty.
+- `samples/decisions.html`: four product tradeoffs reconstructed from project records and public release notes, with historical-evidence limits.
+
+PenEcho v1.1.0 release assets for Android, macOS and Windows were verified on GitHub. Past device reports are distinguished from current-session checks. Vibex source is private and is not linked as publicly available.
